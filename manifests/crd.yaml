@@ -1,0 +1,51 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: resourcettls.cleanup.example.com
+spec:
+  group: cleanup.example.com
+  names:
+    kind: ResourceTTL
+    plural: resourcettls
+    singular: resourcettl
+    shortNames:
+      - rttl
+  scope: Namespaced
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                resourceKind:
+                  type: string
+                  description: "The type of resource to delete (POD, JOB, Deployment etc)"
+                resourceName:
+                  type: string
+                  description: "The name of the resource to be deleted"
+                namespace:
+                  type: string
+                  description: "The namespace where the resource exists"
+                ttlSeconds:
+                  type: integer
+                  description: "the time in seconds before the resource is deleted"
+                matchAnnotation:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  description: "Annotation that the resource must have to be deleted"
+      additionalPrinterColumns:
+        - name: Resource
+          type: string
+          jsonPath: ".spec.resourceKind"
+        - name: Name
+          type: string
+          jsonPath: ".spec.resourceName"
+        - name: TTL (Seconds)
+          type: integer
+          jsonPath: ".spec.ttlSeconds"

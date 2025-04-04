@@ -1,0 +1,10 @@
+apiVersion: cleanup.example.com/v1
+kind: ResourceTTL
+metadata:
+  name: delete-old-pod
+  namespace: default
+spec:
+  resourceKind: Pod
+  resourceName: my-temp-pod
+  namespace: default
+  ttlSeconds: 600

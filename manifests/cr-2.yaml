@@ -1,0 +1,10 @@
+apiVersion: cleanup.example.com/v1
+kind: ResourceTTL
+metadata:
+  name: delete-old-deployment
+  namespace: default
+spec:
+  resourceKind: Deployment
+  resourceName: test-old-deployment
+  namespace: default
+  ttlSeconds: 1950
